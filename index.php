@@ -24,6 +24,11 @@
     <title>Cafe</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/messages_el.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/cafe.js"></script>
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -88,9 +93,6 @@
         }
       }
     ?>
-    </div>
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/cafe.js"></script>
+    </div>    
   </body>
 </html>
