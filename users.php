@@ -14,8 +14,8 @@
 	}
 	else {
 		echo '<ul class="pagination">';
-		echo '<li><a data-toggle="modal" href="#" data-backdrop="static" data-target="#myModal">
-				<span class="glyphicon glyphicon-plus"> Νέος Χρήστης</a></li>';
+		echo '<li><a data-toggle="modal" href="#" data-backdrop="static" data-target="#myModal">';
+		echo '<span class="glyphicon glyphicon-plus"> Νέος Χρήστης</a></li>';
 		echo '<li><a class="text-primary"> Σελίδα: </a></li>';
 		for ($i = 0;$i < $result['pages'];$i++) {
 			if ($i == $page) {
@@ -36,20 +36,23 @@
 		echo '<th></th>';
 		echo '<th></th>';
 		foreach ($result['data'] as $user) {
+			$message = "Να διαγραφεί ο χρήστης ".$user['username'].";";
+			$url = "userdelete.php?id=".$user['username'];
 			echo '<tr>';
 			echo '<td>'.$user['lastname'].'</td>';
 			echo '<td>'.$user['firstname'].'</td>';
 			echo '<td>'.$user['username'].'</td>';
 			echo '<td>'.$user['password'].'</td>';
 			echo '<td>'.$user['role'].'</td>';
-			echo '<td class="text-right">
-			<a class="text-info" href="index.php?action=edit">
-			<span class="glyphicon glyphicon-edit">Αλλαγή</a></td>';
-			echo '<td class="text-right">
-			<a data-toggle="modal" href="#" data-backdrop="static" data-target="#confirmDialog"
-			<a href="deluser.php?id='.$user['username'].'" class="text-danger confirm" 
-			title="Διαγραφή χρήστης '.$user['username'].';">
-			<span class="glyphicon glyphicon-remove">Διαγραφή</a></td>';
+			
+			echo '<td class="text-right">';
+			echo '<button type="button" title="Αλλαγή" class="btn btn-primary edit" data-url="'.$url.'" data-message="'.$message.'">';
+			echo '<span class="glyphicon glyphicon-edit"></a></td>';
+			
+			echo '<td class="text-right">';
+			echo '<button type="button" title="Διαγραφή" class="btn btn-danger confirm" data-url="'.$url.'" data-message="'.$message.'">';
+			echo '<span class="glyphicon glyphicon-remove"></button></td>';
+			
 			echo '</tr>';
 		}
 		echo '</table>';
@@ -70,15 +73,3 @@
 
 	include "useredit.php";
 ?>
-
-<div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-body">
-				
-				<button type="button" class="btn btn-default" data-dismiss="modal">Άκυρο</button>
-				<button type="submit" class="btn btn-danger">Διαγραφή</button>
-			</div>
-		</div>
-	</div>
-</div>

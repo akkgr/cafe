@@ -28,7 +28,6 @@
     <script src="js/jquery.validate.min.js"></script>
     <script src="js/messages_el.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/cafe.js"></script>
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -93,6 +92,35 @@
         }
       }
     ?>
-    </div>    
+    </div>
+    
+    <div class="modal fade" id="infoDialog" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <p class="text-danger" id="infoMessage"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="confirmDialog" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <p class="text-info" id="confirmMessage"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Άκυρο</button>
+            <button type="submit" class="btn btn-danger delete">Διαγραφή</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/cafe.js"></script>
   </body>
 </html>
