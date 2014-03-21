@@ -53,7 +53,7 @@
 
 			$message = "Να διαγραφεί ο χρήστης ".$user['username'].";";
 			$delurl = "userdelete.php?id=".$user['username'];
-			$editurl = "userupdate.php?id=".$user['username'];
+			$editurl = "userupdate.php";
 			
 			echo '<tr>';
 

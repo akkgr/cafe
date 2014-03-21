@@ -12,7 +12,7 @@
       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Στατιστικά <b class="caret"></b></a>
       <ul class="dropdown-menu">
         <li <?php if($action == "top") echo "class='active'" ?>><a href="index.php?action=top">Προιόντα</a></li>
-        <li <?php if($action == "totals") echo "class='active'" ?>><a href="index.php?action=totals">Τζίρος</a></li>
+        <li <?php if($action == "sales") echo "class='active'" ?>><a href="index.php?action=sales">Τζίρος</a></li>
       </ul>
     </li>
 </ul>

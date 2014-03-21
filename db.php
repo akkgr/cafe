@@ -110,6 +110,59 @@
 			return $result;
 		}
 
+		function AddUser($lastname,$firstname,$username,$password,$role) {
+
+			$result = $this->connect();
+			if ($result['error'])
+				return $result;
+
+			$stmt = $this->db->stmt_init();
+			if (!($stmt = $this->db->prepare("INSERT INTO users (LastName,FirstName,Username,Password,Role) 
+												VALUES (?,?,?,?,?)")))
+				return array('error' => true, 'message' => $this->db->error);
+
+
+			if (!($stmt->bind_param("sssss",$lastname,$firstname,$username,$password,$role)))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    if (!($stmt->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+    		
+		    $result = array('error' => false, 'message' => "Επιτυχής εισαγωγή.");
+
+		    $stmt->close();		
+			$this->disconnect();
+
+			return $result;
+		}
+
+		function UpdateUser($lastname,$firstname,$username,$password,$role) {
+
+			$result = $this->connect();
+			if ($result['error'])
+				return $result;
+
+			$stmt = $this->db->stmt_init();
+			if (!($stmt = $this->db->prepare("UPDATE users SET LastName = ?, FirstName = ?, 
+												Password = ?, Role = ? 
+												WHERE Username = ?")))
+				return array('error' => true, 'message' => $this->db->error);
+
+
+			if (!($stmt->bind_param("sssss",$lastname,$firstname,$password,$role,$username)))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    if (!($stmt->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+    		
+		    $result = array('error' => false, 'message' => "Επιτυχής αλλαγή.");
+
+		    $stmt->close();		
+			$this->disconnect();
+
+			return $result;
+		}
+
 		function DelUser($id) {
 
 			$result = $this->connect();
@@ -167,6 +220,59 @@
 	        }
     		
 		    $result = array('error' => false, 'data' => $items, 'pages' => $pages);
+
+		    $stmt->close();		
+			$this->disconnect();
+
+			return $result;
+		}
+
+		function AddItem($name,$description,$price) {
+
+			$result = $this->connect();
+			if ($result['error'])
+				return $result;
+
+			$stmt = $this->db->stmt_init();
+			if (!($stmt = $this->db->prepare("INSERT INTO items (Name,Description,Price) 
+												VALUES (?,?,?)")))
+				return array('error' => true, 'message' => $this->db->error);
+
+
+			if (!($stmt->bind_param("ssd",$name,$description,$price)))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    if (!($stmt->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+    		
+		    $result = array('error' => false, 'message' => "Επιτυχής εισαγωγή.");
+
+		    $stmt->close();		
+			$this->disconnect();
+
+			return $result;
+		}
+
+		function UpdateItem($itemid,$name,$description,$price) {
+
+			$result = $this->connect();
+			if ($result['error'])
+				return $result;
+
+			$stmt = $this->db->stmt_init();
+			if (!($stmt = $this->db->prepare("UPDATE items SET name = ?, description = ?, 
+												price = ? 
+												WHERE itemid = ?")))
+				return array('error' => true, 'message' => $this->db->error);
+
+
+			if (!($stmt->bind_param("ssdi",$name,$description,$price,$itemid)))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    if (!($stmt->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+    		
+		    $result = array('error' => false, 'message' => "Επιτυχής αλλαγή.");
 
 		    $stmt->close();		
 			$this->disconnect();
@@ -239,6 +345,115 @@
 		    $result = array('error' => false, 'data' => $orders, 'pages' => $pages);
 
 		    $stmt->close();		
+			$this->disconnect();
+
+			return $result;
+		}
+
+		function GetTopItems() {
+			$result = $this->connect();
+			if ($result['error'])
+				return $result;
+
+			$stmt = $this->db->stmt_init();
+			if (!($stmt = $this->db->prepare("SELECT items.name, sum(quantity) total
+												FROM orders, items
+			                                    where items.itemid = orders.itemid
+			                                    group by items.name
+			                                    ORDER BY total DESC LIMIT 5")))
+				return array('error' => true, 'message' => $this->db->error);
+
+		    if (!($stmt->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    $res = $stmt->get_result();
+		    while ($row = $res->fetch_array(MYSQLI_ASSOC))
+	        {
+	            $top[] = $row;
+	        }
+
+	        $stmt2 = $this->db->stmt_init();
+			if (!($stmt2 = $this->db->prepare("SELECT items.name, sum(quantity) total
+												FROM orders, items
+			                                    where items.itemid = orders.itemid
+			                                    group by items.name
+			                                    ORDER BY total LIMIT 5")))
+				return array('error' => true, 'message' => $this->db->error);
+
+		    if (!($stmt2->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    $res2 = $stmt2->get_result();
+		    while ($row = $res2->fetch_array(MYSQLI_ASSOC))
+	        {
+	            $last[] = $row;
+	        }
+    		
+		    $result = array('error' => false, 'top' => $top, 'last' => $last);
+
+		    $stmt->close();		
+		    $stmt2->close();
+			$this->disconnect();
+
+			return $result;			
+		}
+
+		function GetSales(){
+			$result = $this->connect();
+			if ($result['error'])
+				return $result;
+
+			$stmt = $this->db->stmt_init();
+			if (!($stmt = $this->db->prepare("SELECT sum(price) total 
+												FROM orders, items 
+												WHERE items.itemid = orders.itemid 
+												AND DATE(orderdatetime)=CURDATE()")))
+				return array('error' => true, 'message' => $this->db->error);
+
+		    if (!($stmt->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    $res = $stmt->get_result();
+		    $row = $res->fetch_array(MYSQLI_ASSOC);
+	        $day = $row['total'];
+	        if($day == null) $day = 0;
+	        
+	        $stmt2 = $this->db->stmt_init();
+			if (!($stmt2 = $this->db->prepare("SELECT sum(price) total 
+												FROM orders, items 
+												WHERE items.itemid = orders.itemid 
+												AND YEARWEEK(orderdatetime)=YEARWEEK(CURDATE())")))
+				return array('error' => true, 'message' => $this->db->error);
+
+		    if (!($stmt2->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    $res2 = $stmt2->get_result();
+		    $row = $res2->fetch_array(MYSQLI_ASSOC);
+	        $week = $row['total'];
+	        if($week == null) $week = 0;
+
+	        $stmt3 = $this->db->stmt_init();
+			if (!($stmt3 = $this->db->prepare("SELECT sum(price) total 
+												FROM orders, items 
+												WHERE items.itemid = orders.itemid 
+												AND MONTH(orderdatetime)=MONTH(CURDATE())
+												AND YEAR(orderdatetime)=YEAR(CURDATE())")))
+				return array('error' => true, 'message' => $this->db->error);
+
+		    if (!($stmt3->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    $res3 = $stmt3->get_result();
+		    $row = $res3->fetch_array(MYSQLI_ASSOC);
+	        $month = $row['total'];
+	        if($month == null) $month = 0;
+    		
+		    $result = array('error' => false, 'day' => $day, 'week' => $week, 'month' => $month);
+
+		    $stmt->close();		
+		    $stmt2->close();
+		    $stmt3->close();
 			$this->disconnect();
 
 			return $result;

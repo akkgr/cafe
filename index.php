@@ -73,10 +73,10 @@
               include 'orders.php';
               break;
             case "top":
-              include 'top.php';
+              include 'topitems.php';
               break;
-            case "totals":
-              include 'totals.php';
+            case "sales":
+              include 'sales.php';
               break;
             default:
               echo '<div class="jumbotron">';

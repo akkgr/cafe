@@ -3,7 +3,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body">
-				<form id="form" role="form">
+				<form id="form" role="form" method="post">
 					<div class="form-group">
 						<label for="lastname">Επώνυμο</label>
 						<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Επίθετο">
@@ -50,6 +50,9 @@
                 required: true
             },
             password: {
+                required: true
+            },
+            role: {
                 required: true
             }
         },

@@ -22,16 +22,23 @@ $('.confirm').click(function(e){
 $('.edit').click(function(e){
 	// αρχικοποίηση αντικειμένου από το data attribute του element
 	var item = $(this).data('item');
+	// Ανάθεση target
+	$("#form").prop("target", $(this).data('url'));
 	// Ανάθεση τιμών στα elements της form
 	for(var propertyName in item) {
    		$("#"+propertyName).val(item[propertyName]);
 	}
+	// αρχικοποίηση του validation
+	$(".help-block").hide();
+  	$(".has-error").removeClass("has-error");
 	// Εμφάνιση διαλόγου
 	$('#myModal').modal('toggle');
 })
 
 // Εμφάνιση διαλόγου προσθήκης εγγραφής
 $('.add').click(function(e){
+	// Ανάθεση target
+	$("#form").prop("target", $(this).data('url'));
 	// αρχικοποίηση τιμών στα input elements της form
 	$("form :input").each(function(){
 		$(this).val('');
