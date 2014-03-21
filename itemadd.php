@@ -6,9 +6,13 @@
 		if(isset($_SESSION['role']) && $_SESSION['role'] == 'Διαχειριστής') {
 
 			$db = new Db();
-		  	if (isset($_GET['id'])) {
-		  		$id = $_GET['id'];
-		  		$result = $db->DelItem($id);
+		  	if (isset($_POST['name']) 
+		  		&& isset($_POST['description'])
+		  		&& isset($_POST['price'])) {
+		  		$name = $_POST['name'];
+			  	$description = $_POST['description'];
+			  	$price = $_POST['price'];
+		  		$result = $db->AddItem($name,$description,$price);
 		  	}
 		  	else {
 		  		$result = array('error' => true, 'message' => "Λάθος Κωδικός Προϊόντος.");

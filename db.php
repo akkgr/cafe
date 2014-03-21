@@ -350,6 +350,32 @@
 			return $result;
 		}
 
+		function AddOrder($itemid,$quantity,$username) {
+
+			$result = $this->connect();
+			if ($result['error'])
+				return $result;
+
+			$stmt = $this->db->stmt_init();
+			if (!($stmt = $this->db->prepare("INSERT INTO orders (itemid,quantity,username,orderdatetime) 
+												VALUES (?,?,?,CURDATE())")))
+				return array('error' => true, 'message' => $this->db->error);
+
+
+			if (!($stmt->bind_param("iis",$itemid,$quantity,$username)))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    if (!($stmt->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+    		
+		    $result = array('error' => false, 'message' => "Επιτυχής εισαγωγή.");
+
+		    $stmt->close();		
+			$this->disconnect();
+
+			return $result;
+		}
+
 		function GetTopItems() {
 			$result = $this->connect();
 			if ($result['error'])

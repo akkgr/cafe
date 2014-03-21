@@ -23,14 +23,14 @@ $('.edit').click(function(e){
 	// αρχικοποίηση αντικειμένου από το data attribute του element
 	var item = $(this).data('item');
 	// Ανάθεση target
-	$("#form").prop("target", $(this).data('url'));
+	$("#form").prop("action", $(this).data('url'));
 	// Ανάθεση τιμών στα elements της form
 	for(var propertyName in item) {
-   		$("#"+propertyName).val(item[propertyName]);
+		$("#"+propertyName).val(item[propertyName]);
 	}
 	// αρχικοποίηση του validation
 	$(".help-block").hide();
-  	$(".has-error").removeClass("has-error");
+	$(".has-error").removeClass("has-error");
 	// Εμφάνιση διαλόγου
 	$('#myModal').modal('toggle');
 })
@@ -38,7 +38,7 @@ $('.edit').click(function(e){
 // Εμφάνιση διαλόγου προσθήκης εγγραφής
 $('.add').click(function(e){
 	// Ανάθεση target
-	$("#form").prop("target", $(this).data('url'));
+	$("#form").prop("action", $(this).data('url'));
 	// αρχικοποίηση τιμών στα input elements της form
 	$("form :input").each(function(){
 		$(this).val('');
@@ -61,26 +61,27 @@ $('.delete').click(function(e){
 	var href = $(this).data('target');
 	// ajax κλήση υπερσυνδέσμου
 	$.ajax({
-      url: href,
-      type: "get",
-      dataType: "json",
-      // επιτυχής κλήση
-      success: function(data){
-      	// έλεγχος δεδομένων που μας επέστρεψε η κλήση
-      	if (data.error) {
-      		// εμφάνιση μηνύματος με το σφάλμα που προέκυψε
-      		// στο  server
-      		$('#infoMessage').text(data.message);
-      		$('#infoDialog').modal('toggle');
-      	} else
-      		// Η διεργασία στο server εκτελέστηκε επιτυχώς
-      		// οπότε σβήνουμε τη γραμμή της εγγραφής
-        	$(item).closest('tr').remove();           
-      },
-      // ανεπιτυχής κλήση
-      // εμφάνιση μηνύματος με το σφάλμα
-      error:function(){
-      	alert('error');
-      }   
-    }); 
+		url: href,
+		type: "get",
+		dataType: "json",
+		// επιτυχής κλήση
+		success: function(data){
+			// έλεγχος δεδομένων που μας επέστρεψε η κλήση
+			if (data.error) {
+				// εμφάνιση μηνύματος με το σφάλμα που προέκυψε
+				// στο  server
+				$('#infoMessage').text(data.message);
+				$('#infoDialog').modal('toggle');
+			} else {
+				// Η διεργασία στο server εκτελέστηκε επιτυχώς
+				// οπότε σβήνουμε τη γραμμή της εγγραφής
+				$(item).closest('tr').remove();
+			}
+		},
+		// ανεπιτυχής κλήση
+		// εμφάνιση μηνύματος με το σφάλμα
+		error:function(){
+			alert('error');
+		}
+	});
 })

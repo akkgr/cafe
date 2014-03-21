@@ -46,8 +46,7 @@
             if(isset($_SESSION['role'])){
               $role = $_SESSION['role'];
               $name = $_SESSION['username'];
-              if ($role == 'Διαχειριστής')
-                include 'menu.php';
+              include 'menu.php';
           ?>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="logout.php"><?php echo $name; ?> - Αποσύνδεση</a></li>
@@ -77,6 +76,9 @@
               break;
             case "sales":
               include 'sales.php';
+              break;
+            case "catalog":
+              include 'catalog.php';
               break;
             default:
               echo '<div class="jumbotron">';

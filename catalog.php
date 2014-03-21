@@ -15,8 +15,6 @@
 	else {
 		
 		echo '<ul class="pagination">';
-		echo '<li><a href="#" class="add" data-url="itemadd.php">';
-		echo '<span class="glyphicon glyphicon-plus"> Νέο Προιόν</a></li>';
 		echo '<li><a class="text-primary"> Σελίδα: </a></li>';
 		for ($i = 0;$i < $result['pages'];$i++) {
 			if ($i == $page) {
@@ -33,34 +31,25 @@
 		echo '<th>Περιγραφή</th>';
 		echo '<th style="text-align:right;">Τιμή</th>';
 		echo '<th></th>';
-		echo '<th></th>';
 		foreach ($result['data'] as $item) {
 			
-			$message = "Να διαγραφεί το προιόν ".$item['name'].";";
-			$delurl = "itemdelete.php?id=".$item['itemid'];
-			$editurl = "itemupdate.php";
+			$url = "orderadd.php";
 
 			echo '<tr>';
 			echo '<td>'.$item['name'].'</td>';
 			echo '<td>'.$item['description'].'</td>';
 			echo '<td class="text-right">'.$item['price'].'</td>';
-			
+
 			echo '<td class="text-right">';
-			echo '<button type="button" title="Αλλαγή" class="btn btn-primary edit" data-url="'.$editurl.'"';
+			echo '<button type="button" title="Παραγγελία" class="btn btn-primary edit" data-url="'.$url.'"';
 			echo "data-item='".json_encode($item, JSON_UNESCAPED_UNICODE)."'>";
 			echo '<span class="glyphicon glyphicon-edit"></a></td>';
-			
-			echo '<td class="text-right">';
-			echo '<button type="button" title="Διαγραφή" class="btn btn-danger confirm" data-url="'.$delurl.'" data-message="'.$message.'">';
-			echo '<span class="glyphicon glyphicon-remove"></button></td>';
 			
 			echo '</tr>';
 		}
 		echo '</table>';
 
 		echo '<ul class="pagination">';
-		echo '<li><a href="#" class="add" data-url="itemadd.php">';
-		echo '<span class="glyphicon glyphicon-plus"> Νέο Προιόν</a></li>';
 		echo '<li><a class="text-primary"> Σελίδα: </a></li>';
 		for ($i = 0;$i < $result['pages'];$i++) {
 			if ($i == $page) {
@@ -73,5 +62,5 @@
 		echo '</ul>';		
 	}
 
-	include "item.php";
+	include "order.php";
 ?>

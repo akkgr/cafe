@@ -29,7 +29,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Άκυρο</button>
-						<button type="submit" class="btn btn-primary">Αποθήκευση</button>
+						<button type="button" class="btn btn-primary save">Αποθήκευση</button>
 					</div>
 				</form>
 			</div>
@@ -70,6 +70,33 @@
             } else {
                 error.insertAfter(element);
             }
+        },
+        submitHandler: function(form) {
+        	var postData = $(form).serializeArray();
+			var formURL = $(form).attr("action");
+			$.ajax({
+				url : formURL,
+				type: "POST",
+				data : postData,
+				dataType: "json",
+				success:function(data) {
+					// έλεγχος δεδομένων που μας επέστρεψε η κλήση
+					if (data.error) {
+						// εμφάνιση μηνύματος με το σφάλμα που προέκυψε
+						// στο  server
+						$('#infoMessage').text(data.message);
+						$('#infoDialog').modal('toggle');
+					} else {
+						// Η διεργασία στο server εκτελέστηκε επιτυχώς
+						// ανανέωση σελίδας
+						location.reload();
+					}
+				},
+				error: function() {
+					alert('error');
+				}
+			});
+			return false;
         }
     });
 </script>

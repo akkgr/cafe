@@ -6,9 +6,15 @@
 		if(isset($_SESSION['role']) && $_SESSION['role'] == 'Διαχειριστής') {
 
 			$db = new Db();
-		  	if (isset($_GET['id'])) {
-		  		$id = $_GET['id'];
-		  		$result = $db->DelItem($id);
+		  	if ( isset($_POST['itemid'])
+		  		&& isset($_POST['name']) 
+		  		&& isset($_POST['description'])
+		  		&& isset($_POST['price'])) {
+		  		$itemid = $_POST['itemid'];
+		  		$name = $_POST['name'];
+			  	$description = $_POST['description'];
+			  	$price = $_POST['price'];
+		  		$result = $db->UpdateItem($itemid,$name,$description,$price);
 		  	}
 		  	else {
 		  		$result = array('error' => true, 'message' => "Λάθος Κωδικός Προϊόντος.");

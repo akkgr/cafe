@@ -17,6 +17,10 @@
 						<label for="price">Τιμή</label>
 						<input type="text" class="form-control" id="price" name="price" placeholder="Τιμή">
 					</div>
+                    <div class="form-group">
+                        <label for="quantity">Ποσότητα</label>
+                        <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Ποσότητα">
+                    </div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Άκυρο</button>
 						<button type="submit" class="btn btn-primary">Αποθήκευση</button>
@@ -30,13 +34,7 @@
 <script>
 	$('#form').validate({
         rules: {
-            name: {
-                required: true
-            },
-            description: {
-                required: true
-            },
-            price: {
+            quantity: {
                 required: true,
                 number : true
             }

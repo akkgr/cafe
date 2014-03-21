@@ -4,6 +4,10 @@
     else
       $action = "index";
 ?>
+
+<?php 
+  if ($role == 'Διαχειριστής') {
+?>
 <ul class="nav navbar-nav">
 	<li <?php if($action == "users") echo "class='active'" ?>><a href="index.php?action=users">Χρήστες</a></li>
 	<li <?php if($action == "items") echo "class='active'" ?>><a href="index.php?action=items">Κατάλογος</a></li>
@@ -16,3 +20,10 @@
       </ul>
     </li>
 </ul>
+<?php 
+  } else {
+?>
+<ul class="nav navbar-nav">
+  <li <?php if($action == "catalog") echo "class='active'" ?>><a href="index.php?action=catalog">Kατάλογος </a></li>
+</ul>
+<?php } ?>
