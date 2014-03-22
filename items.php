@@ -61,7 +61,7 @@
 			// Επιλογή Επεξεργασίας της Εγγραφής
 			echo '<td class="text-right">';
 			echo '<button type="button" title="Αλλαγή" class="btn btn-primary edit" data-url="'.$editurl.'"';
-			echo "data-item='".json_encode($item, JSON_UNESCAPED_UNICODE)."'>";
+			echo "data-item='".json_encode($item)."'>";
 			echo '<span class="glyphicon glyphicon-edit"></a></td>';
 			
 			// Επιλογή Διαγραφής της Εγγραφής

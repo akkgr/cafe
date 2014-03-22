@@ -29,7 +29,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Άκυρο</button>
-						<button type="button" class="btn btn-primary save">Αποθήκευση</button>
+						<button type="submit" class="btn btn-primary">Αποθήκευση</button>
 					</div>
 				</form>
 			</div>
