@@ -414,7 +414,7 @@
 			// Ερώτημα προσθήκης νέας παραγγελίας
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("INSERT INTO orders (itemid,quantity,username,orderdatetime) 
-												VALUES (?,?,?,CURDATE())")))
+												VALUES (?,?,?,NOW())")))
 				return array('error' => true, 'message' => $this->db->error);
 
 			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος			

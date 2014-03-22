@@ -55,7 +55,7 @@
 			// Επιλογή καταχώρησης παραγγελίας
 			echo '<td class="text-right">';
 			echo '<button type="button" title="Παραγγελία" class="btn btn-primary edit" data-url="'.$url.'"';
-			echo "data-item='".json_encode($item, JSON_UNESCAPED_UNICODE)."'>";
+			echo "data-item='".json_encode($item)."'>";
 			echo '<span class="glyphicon glyphicon-edit"></a></td>';
 			
 			echo '</tr>';
