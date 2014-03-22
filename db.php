@@ -8,6 +8,7 @@
 		private $db;
 		private $limit = 20;
 
+		// Μέθοδος Αρχικοποίησης σύνδεσης με τη βάση δεδομένων
 		private function connect() {
 			
 			/* Άνοιγμα σύνδεσης */
@@ -23,6 +24,7 @@
 			}
 		}
 
+		// Μέθοδος για το κλείσιμο της σύνδεσης με τη βάση δεδομένων
 		private function disconnect() {
 
 			/* Κλείσιμο σύνδεσης */
@@ -30,6 +32,7 @@
 
 		}
 
+		// Μέθοδος Ελέγχου LogIn
 		function login($username,$password) {
 
 			$result = $this->connect();
@@ -55,6 +58,9 @@
 		    /* Ανάκτηση Αποτελέσματος */
 		    /* Έλεγχος ότι ο χρήστης υπάρχει */
 		    if ($stmt->fetch()) {
+		    	// Ανάθεση σε Session μεταβλητές του username
+		    	// και του ρόλου του χρήστη
+		    	// για αναφορά σε αυτές από όλες τις κλήσεις
 	    		$_SESSION['username'] = $user;
 	    		$_SESSION['role'] = $role;
 	    		$result = array('error' => false, 'message' => "User Logged In");
@@ -70,61 +76,73 @@
 			return $result;
 		}
 
+		// Μέθοδος Ανάκτησης όλων των χρηστών
+		// από τη βάση σε σελίδες
 		function GetUsers($page) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
-
+			// Ερώτημα για υπολογισμό του αριθμού σελίδων
 			$total = $this->db->query('SELECT COUNT(*) total FROM users')->fetch_object()->total;
 			$pages = ceil($total / $this->limit);
 
+			// Ερώτημα ανάκτησης χρηστών
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("SELECT lastname,firstname,username,password,role 
 									FROM users ORDER BY lastname,firstname LIMIT ? OFFSET ?")))
 				return array('error' => true, 'message' => $this->db->error);
 
+			// Έλεγχος τρέχουσας σελίδας
 			if($page >= $pages)
 				$offset = 0;
 			else
 				$offset = $page * $this->limit;
 
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος
 			if (!($stmt->bind_param("ii", $this->limit, $offset)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση Ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Επανάληψη για διάβασμα εγγραφών
 		    $res = $stmt->get_result();
 		    while ($row = $res->fetch_array(MYSQLI_ASSOC))
 	        {
 	            $users[] = $row;
 	        }
     		
+    		// Αντικέιμενο για επιστροφή πληροφορίας απο τη μέθοδο 
 		    $result = array('error' => false, 'data' => $users, 'pages' => $pages);
 
+		    // Κλείσιμο ερωτήματος και σύνδεσης με τη βάση
 		    $stmt->close();		
 			$this->disconnect();
 
 			return $result;
 		}
 
+		// Μέθοδος Προσθήκης Νέου Χρήστη
 		function AddUser($lastname,$firstname,$username,$password,$role) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα εισαγωγής χρήστη στη βάση
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("INSERT INTO users (LastName,FirstName,Username,Password,Role) 
 												VALUES (?,?,?,?,?)")))
 				return array('error' => true, 'message' => $this->db->error);
 
-
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος
 			if (!($stmt->bind_param("sssss",$lastname,$firstname,$username,$password,$role)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
     		
@@ -136,22 +154,25 @@
 			return $result;
 		}
 
+		// Μέθοδος Ενημέρωσης Χρήστη
 		function UpdateUser($lastname,$firstname,$username,$password,$role) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα ενημέρωσης χρήστη
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("UPDATE users SET LastName = ?, FirstName = ?, 
 												Password = ?, Role = ? 
 												WHERE Username = ?")))
 				return array('error' => true, 'message' => $this->db->error);
 
-
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος
 			if (!($stmt->bind_param("sssss",$lastname,$firstname,$password,$role,$username)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
     		
@@ -163,20 +184,23 @@
 			return $result;
 		}
 
+		// Μέθοδος Διαγραφής Χρήστη
 		function DelUser($id) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα διαγραφής χρήστη
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("DELETE FROM users WHERE username = ?")))
 				return array('error' => true, 'message' => $this->db->error);
 
-
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος
 			if (!($stmt->bind_param("s", $id)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
     		
@@ -188,133 +212,158 @@
 			return $result;
 		}
 
+		// Μέθοδος Ανάκτησης όλων των προϊόντων
+		// από τη βάση σε σελίδες
 		function GetItems($page) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα για υπολογισμό του αριθμού σελίδων
 			$total = $this->db->query('SELECT COUNT(*) total FROM items')->fetch_object()->total;
 			$pages = ceil($total / $this->limit);
 
+			// Ερώτημα ανάκτησης προϊόντων
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("SELECT itemid,name,description,price 
 									FROM items ORDER BY name LIMIT ? OFFSET ?")))
 				return array('error' => true, 'message' => $this->db->error);
 
+			// Έλεγχος τρέχουσας σελίδας
 			if($page >= $pages)
 				$offset = 0;
 			else
 				$offset = $page * $this->limit;
 
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος			
 			if (!($stmt->bind_param("ii", $this->limit, $offset)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση Ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Επανάληψη για διάβασμα εγγραφών
 		    $res = $stmt->get_result();
 		    while ($row = $res->fetch_array(MYSQLI_ASSOC))
 	        {
 	            $items[] = $row;
 	        }
     		
+    		// Αντικέιμενο για επιστροφή πληροφορίας απο τη μέθοδο 
 		    $result = array('error' => false, 'data' => $items, 'pages' => $pages);
 
+		    // Κλείσιμο ερωτήματος και σύνδεσης με τη βάση
 		    $stmt->close();		
 			$this->disconnect();
 
 			return $result;
 		}
 
+		// Μέθοδος Προσθήκης Νέου προϊόντος
 		function AddItem($name,$description,$price) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα εισαγωγή προϊόντος
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("INSERT INTO items (Name,Description,Price) 
 												VALUES (?,?,?)")))
 				return array('error' => true, 'message' => $this->db->error);
 
-
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος
 			if (!($stmt->bind_param("ssd",$name,$description,$price)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
     		
 		    $result = array('error' => false, 'message' => "Επιτυχής εισαγωγή.");
 
+		    // Κλείσιμο ερωτήματος και σύνδεσης με τη βάση
 		    $stmt->close();		
 			$this->disconnect();
 
 			return $result;
 		}
 
+		// Μέθοδος ενημέρωσης προϊόντος
 		function UpdateItem($itemid,$name,$description,$price) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα εισαγωγή προϊόντος
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("UPDATE items SET name = ?, description = ?, 
 												price = ? 
 												WHERE itemid = ?")))
 				return array('error' => true, 'message' => $this->db->error);
 
-
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος
 			if (!($stmt->bind_param("ssdi",$name,$description,$price,$itemid)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
     		
 		    $result = array('error' => false, 'message' => "Επιτυχής αλλαγή.");
 
+		    // Κλείσιμο ερωτήματος και σύνδεσης με τη βάση
 		    $stmt->close();		
 			$this->disconnect();
 
 			return $result;
 		}
 
+		// Μέθοδος διαγραφής προϊόντος
 		function DelItem($id) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα διαγραφής προϊόντος
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("DELETE FROM items WHERE itemid = ?")))
 				return array('error' => true, 'message' => $this->db->error);
 
-
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος
 			if (!($stmt->bind_param("i", $id)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
     		
 		    $result = array('error' => false, 'message' => "Επιτυχής διαγραφή.");
 
+		    // Κλείσιμο ερωτήματος και σύνδεσης με τη βάση
 		    $stmt->close();		
 			$this->disconnect();
 
 			return $result;
 		}
 
+		// Μέθοδος Ανάκτησης όλων των παραγγελιών
+		// από τη βάση σε σελίδες
 		function GetOrders($page) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
-
+			// Ερώτημα για υπολογισμό του αριθμού σελίδων
 			$total = $this->db->query('SELECT COUNT(*) total FROM orders')->fetch_object()->total;
 			$pages = ceil($total / $this->limit);
 
+			// Ερώτημα ανάκτησης των παραγγελιών
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("SELECT orderid,orders.itemid,quantity,OrderDateTime,
 												orders.username,items.name,
@@ -325,17 +374,21 @@
                                     ORDER BY orderdatetime DESC LIMIT ? OFFSET ?")))
 				return array('error' => true, 'message' => $this->db->error);
 
+			// Έλεγχος τρέχουσας σελίδας
 			if($page >= $pages)
 				$offset = 0;
 			else
 				$offset = $page * $this->limit;
 
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος
 			if (!($stmt->bind_param("ii", $this->limit, $offset)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Επάνάληψη για διάβασμα των εγγραφών
 		    $res = $stmt->get_result();
 		    while ($row = $res->fetch_array(MYSQLI_ASSOC))
 	        {
@@ -344,43 +397,51 @@
     		
 		    $result = array('error' => false, 'data' => $orders, 'pages' => $pages);
 
+		    // Κλείσιμο ερωτήματος και σύνδεσης
 		    $stmt->close();		
 			$this->disconnect();
 
 			return $result;
 		}
 
+		// Μέθοδος προσθήκης παραγγελίας
 		function AddOrder($itemid,$quantity,$username) {
 
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα προσθήκης νέας παραγγελίας
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("INSERT INTO orders (itemid,quantity,username,orderdatetime) 
 												VALUES (?,?,?,CURDATE())")))
 				return array('error' => true, 'message' => $this->db->error);
 
-
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος			
 			if (!($stmt->bind_param("iis",$itemid,$quantity,$username)))
 		    	return array('error' => true, 'message' => $stmt->error);
 
+		    // Εκτέλεση ερωτήματος
 		    if (!($stmt->execute()))
 		    	return array('error' => true, 'message' => $stmt->error);
     		
 		    $result = array('error' => false, 'message' => "Επιτυχής εισαγωγή.");
 
+		    // Κλείσιμο ερωτήματος και σύνδεσης
 		    $stmt->close();		
 			$this->disconnect();
 
 			return $result;
 		}
 
+		// Μέθοδος ανάκτησης των 5 προϊόντων 
+		// με τις περισσότερες και τις λιγότερες παραγγελίες
 		function GetTopItems() {
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα ανάκτησης των 5 προϊόντων με τις περισσότερες παραγγελίες
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("SELECT items.name, sum(quantity) total
 												FROM orders, items
@@ -398,6 +459,7 @@
 	            $top[] = $row;
 	        }
 
+	        // Ερώτημα ανάκτησης των 5 προϊόντων με τις λιγότερες παραγγελίες
 	        $stmt2 = $this->db->stmt_init();
 			if (!($stmt2 = $this->db->prepare("SELECT items.name, sum(quantity) total
 												FROM orders, items
@@ -424,11 +486,14 @@
 			return $result;			
 		}
 
+		// Μέθοδος ανάκτησης του συνολικού τζίρου του καταστήματος
+		// για την τρέχουσα ημέρα, εβδομάδα και μήνα
 		function GetSales(){
 			$result = $this->connect();
 			if ($result['error'])
 				return $result;
 
+			// Ερώτημα για τζίρο τρέχουσας ημέρας
 			$stmt = $this->db->stmt_init();
 			if (!($stmt = $this->db->prepare("SELECT sum(price) total 
 												FROM orders, items 
@@ -444,6 +509,7 @@
 	        $day = $row['total'];
 	        if($day == null) $day = 0;
 	        
+	        // Ερώτημα για τζίρο εβδομάδας
 	        $stmt2 = $this->db->stmt_init();
 			if (!($stmt2 = $this->db->prepare("SELECT sum(price) total 
 												FROM orders, items 
@@ -459,6 +525,7 @@
 	        $week = $row['total'];
 	        if($week == null) $week = 0;
 
+	        // Ερώτημα για τζίρο μήνα
 	        $stmt3 = $this->db->stmt_init();
 			if (!($stmt3 = $this->db->prepare("SELECT sum(price) total 
 												FROM orders, items 

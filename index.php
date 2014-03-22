@@ -1,8 +1,13 @@
 <?php
+  // Έναρξη Session
   session_start();
+  // Ενσωμάτωση κώδικα διεπαφής με τη βάση δεδομένων
   require_once("db.php");
 ?>
 <?php
+  // Έλεγχος LogIn
+  // Έλεγχος αν έχουν γίνει post το username και το password.
+  // Αν έχου γίνει τότε εκτελούμε απο την κλάση Db τη μέθοδο login
   if (isset($_POST['username']) && isset($_POST['password'])) {
         $db = new Db();
         $result = $db->login($_POST['username'],$_POST['password']);
@@ -30,6 +35,8 @@
     <script src="js/bootstrap.min.js"></script>
   </head>
   <body>
+
+    <!-- Επικεφαλίδα για εμφάνιση menou επιλογών -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -43,6 +50,8 @@
         </div>
         <div class="navbar-collapse collapse">          
           <?php
+            // έλεγχος με βάση τη session μεταβλητή που κρατά την πληροφορία του ρόλου του χρήστη
+            // για την εμφάνιση του μενού
             if(isset($_SESSION['role'])){
               $role = $_SESSION['role'];
               $name = $_SESSION['username'];
@@ -55,12 +64,22 @@
         </div>
       </div>
     </div>
+    <!-- Τέλος Επικεφαλίδας -->
+
+    <!-- κυρίως σώμα -->
     <div class="container-fluid">
     <?php
+      // Έλεγχος ύπαρξης session μεταβλητής
+      // για το ρόλο του χρήστη
       if (!(isset($_SESSION['role'])))
+        // Αν δεν έχει οριστεί εμφανίζουμε οθόνη για login
         include 'login.php';
       else {
+        // Αν έχει οριστεί ελέγχουμε αν υπάρχει GET παράμετρος
+        // με το όνομα action που καθορίζει συγκεκριμένη επιλογή 
+        // του χρήστη από το μενοu
         if (isset($_GET['action'])) {
+          // Ανάλογα εμφανίζουμε την αντίστοιχη οθόνη
           switch ($_GET["action"]) {
             case "users":
               include 'users.php';
@@ -95,7 +114,9 @@
       }
     ?>
     </div>
+    <!-- τέλος κυρίως σώματος -->
     
+    <!-- Popup Modal Διάλογος για εμφάνιση πληροφοριών στον χρήστη -->
     <div class="modal fade" id="infoDialog" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -108,7 +129,9 @@
         </div>
       </div>
     </div>
+    <!-- τέλος διαλόγου πληροφοριών -->
 
+    <!-- Popup Modal Διάλογος για επιβεβαίωση διαγραφής -->
     <div class="modal fade" id="confirmDialog" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -122,6 +145,7 @@
         </div>
       </div>
     </div>
+    <!-- τέλος διαλόγου επιβεβαίωσης -->
 
     <script src="js/cafe.js"></script>
   </body>

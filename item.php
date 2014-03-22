@@ -1,4 +1,4 @@
-
+<!-- modal διάλογος που περιέχει την φόρμα με τα πεδία τοθ ποριόντος -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -26,9 +26,12 @@
 		</div>
 	</div>
 </div>
+<!-- τέλος διαλόγου -->
 
 <script>
+    // κώδικας για το validation της φόρμας
 	$('#form').validate({
+        // δήλωση κάνονων
         rules: {
             name: {
                 required: true
@@ -56,6 +59,7 @@
                 error.insertAfter(element);
             }
         },
+        // κώδικας που αναλάμβάνει το submit
         submitHandler: function(form) {
             var postData = $(form).serializeArray();
             var formURL = $(form).attr("action");
