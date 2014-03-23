@@ -1,4 +1,4 @@
-
+<!-- modal διάλογος που περιέχει την φόρμα με τα πεδία του χρήστη -->
 <div class="modal fade" id="myModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -36,9 +36,12 @@
 		</div>
 	</div>
 </div>
+<!-- τέλος διαλόγου -->
 
 <script>
+	// κώδικας για το validation της φόρμας
 	$('#form').validate({
+		// δήλωση κάνονων
         rules: {
             firstname: {
                 required: true
@@ -56,6 +59,8 @@
                 required: true
             }
         },
+        // κώδικας μορφοποίσης και δημιουργίας στοιχείων
+        // αν υπάρχει παραβίαση των κονόνων ή όχι
         highlight: function(element) {
             $(element).closest('.form-group').addClass('has-error');
         },
@@ -71,6 +76,7 @@
                 error.insertAfter(element);
             }
         },
+        // κώδικας που αναλάμβάνει το submit
         submitHandler: function(form) {
         	var postData = $(form).serializeArray();
 			var formURL = $(form).attr("action");

@@ -44,6 +44,8 @@
                 number : true
             }
         },
+        // κώδικας μορφοποίσης και δημιουργίας στοιχείων
+        // αν υπάρχει παραβίαση των κονόνων ή όχι
         highlight: function(element) {
             $(element).closest('.form-group').addClass('has-error');
         },
