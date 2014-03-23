@@ -1,4 +1,4 @@
-<!-- modal διάλογος που περιέχει την φόρμα με τα πεδία τοθ ποριόντος -->
+<!-- modal διάλογος που περιέχει την φόρμα με τα πεδία του ποριόντος -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">

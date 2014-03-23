@@ -24,6 +24,7 @@
 		$result = array('error' => true, 'message' => $e->getMessage());
 	}
   	
+  	// Επιστροφή του αποτελέσματος της διεργασίας
   	header('Content-Type: application/json');
   	echo json_encode($result);
 ?>
