@@ -551,5 +551,48 @@
 
 			return $result;
 		}
+
+		function CreateXML($df,$dt) {
+
+			$result = $this->connect();
+			if ($result['error'])
+				return $result;
+
+			// Ερώτημα ανάκτησης χρηστών
+			$stmt = $this->db->stmt_init();
+			if (!($stmt = $this->db->prepare("SELECT items.Name as name, "
+                                        . "items.Price as price, orders.Quantity as quantity, "
+                                        . "CONCAT(users.LastName,' ',users.FirstName) As waiter, "
+                                        . "orders.OrderDateTime "
+                                        . "FROM orders,items,users "
+                                        . "WHERE orders.OrderDateTime >= ? AND orders.OrderDateTime <= ? "
+                                        . "AND items.ItemID = orders.ItemID "
+                                        . "AND users.Username = orders.Username "
+                                        . "ORDER BY OrderDateTime Desc")))
+				return array('error' => true, 'message' => $this->db->error);
+
+			// Ανάθεση τιμών στις παραμέτρους του ερωτήματος
+			if (!($stmt->bind_param("ss", $df, $dt)))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    // Εκτέλεση Ερωτήματος
+		    if (!($stmt->execute()))
+		    	return array('error' => true, 'message' => $stmt->error);
+
+		    // Επανάληψη για διάβασμα εγγραφών
+		    $res = $stmt->get_result();
+		    while ($row = $res->fetch_array(MYSQLI_ASSOC))
+	        {
+	        	$orders[] = $row;
+	        }    		
+            
+            $result = array('error' => false, 'data' => $orders);
+
+		    // Κλείσιμο ερωτήματος και σύνδεσης με τη βάση
+		    $stmt->close();		
+			$this->disconnect();
+
+			return $result;
+		}
 	}
 ?>

@@ -18,7 +18,8 @@
         <li <?php if($action == "top") echo "class='active'" ?>><a href="index.php?action=top">Προιόντα</a></li>
         <li <?php if($action == "sales") echo "class='active'" ?>><a href="index.php?action=sales">Τζίρος</a></li>
       </ul>
-    </li>
+  </li>
+  <li <?php if($action == "xml") echo "class='active'" ?>><a href="index.php?action=xml">Αρχείο XML</a></li>
 </ul>
 <?php 
   } else {

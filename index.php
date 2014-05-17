@@ -99,6 +99,9 @@
             case "catalog":
               include 'catalog.php';
               break;
+            case "xml":
+              include 'xml.php';
+              break;
             default:
               echo '<div class="jumbotron">';
               echo '<h3>Cafe, σύστημα παραγγελιοληψίας.</h3>';
