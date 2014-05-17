@@ -10,12 +10,6 @@
 ]>
 <orders>
 	<order>
-		<name>Ελληνικός Μονός </name>
-		<price>2.50</price>
-		<quantity>2</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
 		<name>Σοκολάτα</name>
 		<price>4.00</price>
 		<quantity>3</quantity>
@@ -28,164 +22,26 @@
 		<waiter>Αντωνίου Εύα</waiter>
 	</order>
 	<order>
-		<name>Καπουτσίνο Σαντιγύ</name>
-		<price>6.50</price>
-		<quantity>4</quantity>
-		<waiter>Παππά Γεωργία</waiter>
-	</order>
-	<order>
-		<name>Εσπρέσσο Διπλός</name>
-		<price>4.00</price>
-		<quantity>1</quantity>
-		<waiter>Παππά Γεωργία</waiter>
-	</order>
-	<order>
-		<name>Εσπρέσσο Διπλός</name>
-		<price>4.00</price>
-		<quantity>1</quantity>
-		<waiter>Παππά Γεωργία</waiter>
-	</order>
-	<order>
-		<name>Ελληνικός Μονός </name>
-		<price>2.50</price>
-		<quantity>1</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Ελληνικός Μονός </name>
-		<price>2.50</price>
-		<quantity>1</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Εσπρέσσο</name>
-		<price>2.50</price>
-		<quantity>2</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Ελληνικός Διπλός</name>
-		<price>3.50</price>
-		<quantity>2</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Εσπρέσσο</name>
-		<price>2.50</price>
-		<quantity>5</quantity>
-		<waiter>Παππά Γεωργία</waiter>
-	</order>
-	<order>
-		<name>Εσπρέσσο</name>
-		<price>2.50</price>
-		<quantity>2</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Εσπρέσσο Διπλός</name>
-		<price>4.00</price>
-		<quantity>4</quantity>
-		<waiter>Παππά Γεωργία</waiter>
-	</order>
-	<order>
-		<name>Καπουτσίνο Διπλός</name>
-		<price>5.50</price>
-		<quantity>3</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Καπουτσίνο</name>
-		<price>3.80</price>
-		<quantity>2</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Καπουτσίνο Διπλός</name>
-		<price>5.50</price>
-		<quantity>2</quantity>
-		<waiter>Πέτρου Αντώνης</waiter>
-	</order>
-	<order>
-		<name>Νες Καφέ</name>
-		<price>3.80</price>
-		<quantity>6</quantity>
-		<waiter>Πέτρου Αντώνης</waiter>
-	</order>
-	<order>
-		<name>Χαμομήλι</name>
+		<name>Γάλα</name>
 		<price>2.80</price>
-		<quantity>1</quantity>
-		<waiter>Πέτρου Αντώνης</waiter>
-	</order>
-	<order>
-		<name>Νες Καφέ</name>
-		<price>3.80</price>
 		<quantity>2</quantity>
-		<waiter>Παππά Γεωργία</waiter>
+		<waiter>Αντωνίου Εύα</waiter>
 	</order>
 	<order>
-		<name>Χαμομήλι</name>
+		<name>Γάλα</name>
 		<price>2.80</price>
-		<quantity>1</quantity>
-		<waiter>Παππά Γεωργία</waiter>
-	</order>
-	<order>
-		<name>Ελληνικός Μονός </name>
-		<price>2.50</price>
-		<quantity>7</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Νες Καφέ Βιενουά</name>
-		<price>5.20</price>
-		<quantity>1</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Καπουτσίνο Διπλός</name>
-		<price>5.50</price>
-		<quantity>3</quantity>
-		<waiter>Παππά Γεωργία</waiter>
-	</order>
-	<order>
-		<name>Τσάι</name>
-		<price>3.30</price>
-		<quantity>1</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Καπουτσίνο</name>
-		<price>3.80</price>
 		<quantity>2</quantity>
-		<waiter>Πέτρου Αντώνης</waiter>
-	</order>
-	<order>
-		<name>Τσάι</name>
-		<price>3.30</price>
-		<quantity>4</quantity>
 		<waiter>Αντωνίου Εύα</waiter>
 	</order>
 	<order>
-		<name>Τσάι με κονιάκ</name>
-		<price>5.50</price>
-		<quantity>3</quantity>
-		<waiter>Πέτρου Αντώνης</waiter>
-	</order>
-	<order>
-		<name>Νες Καφέ</name>
-		<price>3.80</price>
-		<quantity>4</quantity>
-		<waiter>Αντωνίου Εύα</waiter>
-	</order>
-	<order>
-		<name>Καπουτσίνο</name>
-		<price>3.80</price>
+		<name>Κονιάκ</name>
+		<price>7.35</price>
 		<quantity>2</quantity>
-		<waiter>Παππά Γεωργία</waiter>
+		<waiter>Αντωνίου Εύα</waiter>
 	</order>
 	<order>
-		<name>Ελληνικός Μονός </name>
-		<price>2.50</price>
+		<name>Κονιάκ</name>
+		<price>7.35</price>
 		<quantity>2</quantity>
 		<waiter>Αντωνίου Εύα</waiter>
 	</order>

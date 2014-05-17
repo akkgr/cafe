@@ -56,8 +56,11 @@
 	            //Έλεγχος για την εγκυρότητα του αρχείου βάσει του DTD
             	if (!$doc->validate()) {
             		echo "<p>Το αρχείο δεν είναι έγκυρο σύμφωνα με το DTD.</p>";
-	            }
-                echo $xsl->transformToXML($doc);
+	            } 
+	            else {
+	            	$doc->save("orders.xml");
+                	echo $xsl->transformToXML($doc);
+            	}
 		  	}
 		  	else {
 		  		echo "<p>Λάθος ημερομηνίες.</p>";
